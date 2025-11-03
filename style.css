@@ -8,7 +8,8 @@
 /* —— body + fonts —— */
 body {
   font-family: "Montserrat", Arial, Helvetica, sans-serif;
-  color: #333;
+  color: #fff;
+  background: #7e0a22;
   display: flex;
   justify-content: center;
 }
@@ -16,48 +17,105 @@ body {
 .page-wrapper {
   width: 90%;
   max-width: 900px;
+  min-height: 100vh; /* ensure wrapper fills viewport so footer can sit at bottom */
+  display: flex;
+  flex-direction: column;
+}
+
+main {
+  flex: 1; /* allow main content to grow so footer is pushed to bottom */
 }
 
 /* header */
 .site-header {
-  text-align: center;
-  padding-top: 50px;
+  display: flex;
+  align-items: center;
+  justify-content: center; /* keep header centered as a group */
+  gap: 12px;
+  padding-top: 40px; /* reduced top padding to bring header closer to chat */
 }
 
 .site-title {
-  font-size: 22px;
+  font-size: 32px;
   font-weight: 500;
-  margin-bottom: 10px;
+  margin: 0; /* remove bottom margin so title centers vertically with logo */
+  line-height: 1; /* tighter line-height for better vertical alignment */
+  margin-left: 5px;
+}
+
+.site-title {
+  color: #ffffff;
+}
+
+/* header logo to the left of the title */
+.site-logo {
+  max-height: 30px;
+  width: auto;
+  display: block;
+}
+
+@media (max-width: 480px) {
+  .site-logo {
+    max-height: 36px;
+  }
+  .site-title {
+    font-size: 18px;
+  }
 }
 
 /* chat window */
 .chatbox {
-  margin: 40px 0;
+  margin: 35px 0; /* reduced margin so chat sits closer to header */
 }
 
 .chat-window {
-  height: 360px;
-  border: 1px solid #000;
+  height: 450px;
+  border: 3px solid #e3a525;
   padding: 20px;
   font-size: 18px;
   line-height: 1.5;
   overflow-y: auto;
-  background: #fafafa;
+  background: #fee8ed;
   white-space: pre-line;
 }
 
 /* messages */
+.chat-window {
+  display: flex;
+  flex-direction: column;
+  gap: 0; /* we'll control specific gaps for pairs */
+}
+
 .msg {
-  margin-bottom: 14px;
-  line-height: 1.5;
+  margin: 0; /* reset since we use flex layout */
+  line-height: 1.4;
+  max-width: 78%;
+  padding: 10px 14px;
+  border-radius: 14px;
+  word-wrap: break-word;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.04);
 }
 
-.msg.user {
-  color: #000;
-}
-
+/* Assistant (AI) messages: left-aligned bubble */
 .msg.ai {
-  color: #666666;
+  align-self: flex-start;
+  background: #fff0f5;
+  color: #333333;
+  border: 1px solid rgba(0, 0, 0, 0.06);
+  border-radius: 14px 14px 14px 4px;
+}
+
+/* User messages: right-aligned bubble */
+.msg.user {
+  align-self: flex-end;
+  background: #e3a535; /* brand accent */
+  color: #fff0f3;
+  border-radius: 14px 14px 4px 14px;
+}
+
+/* One-line gap between a user message and the following AI response */
+.msg.user + .msg.ai {
+  margin-top: 1em; /* roughly one line-height gap */
 }
 
 /* input row */
@@ -70,18 +128,19 @@ body {
 .chat-form input {
   flex: 1;
   padding: 12px;
-  border: 1px solid #ccc;
+  border: 2px solid #e3a525;
+  background: #fee8ed;
   font-size: 18px;
 }
 
 .chat-form input:focus {
-  outline: 2px solid #000;
+  outline: 2px solid #e3a525;
   outline-offset: 2px;
 }
 
 .chat-form button {
   font-size: 18px;
-  background: #000;
+  background: #e3a535;
   color: #fff;
   border: none;
   padding: 12px;
@@ -99,11 +158,11 @@ body {
 }
 
 .chat-form button:hover {
-  background: #666666;
+  background: #d1961d;
 }
 
 .chat-form button:focus {
-  outline: 2px solid #000;
+  outline: 2px solid #e3a525;
   outline-offset: 2px;
 }
 
@@ -122,10 +181,10 @@ body {
 
 /* footer */
 .site-footer {
-  margin: 60px 0 40px;
+  margin: 40px 0 20px;
   text-align: center;
   font-size: 14px;
-  color: #666;
+  color: #ffffff;
 }
 
 .site-footer nav {
@@ -134,10 +193,217 @@ body {
 
 .site-footer a {
   margin: 0 8px;
-  color: #000;
+  color: #ffffff;
   text-decoration: none;
 }
 
 .site-footer a:hover {
-  color: #666666;
+  color: #ffdca5; /* subtle hover highlight */
+}
+
+/* Footer typography adjustments: copyright slightly larger than links, links underlined */
+.site-footer p {
+  font-size: 15px; /* a few pixels larger */
+  margin: 0;
+}
+
+.site-footer nav a {
+  font-size: 13px; /* slightly smaller than copyright */
+  text-decoration: underline; /* underline linked objects */
+}
+
+/* Splash overlay styles */
+.splash-overlay {
+  position: fixed;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: #0e0e0e;
+  z-index: 9999;
+  transition: opacity 0.5s ease, visibility 0.5s ease;
+  opacity: 1;
+  visibility: visible;
+}
+
+.splash-overlay.hidden {
+  opacity: 0;
+  visibility: hidden;
+  pointer-events: none;
+}
+
+.splash-content {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 20px;
+  padding: 20px;
+}
+
+.splash-brand {
+  display: flex;
+  align-items: center;
+  gap: 22px; /* increased gap between logo and text */
+}
+
+.splash-text {
+  font-size: 40px;
+  font-weight: 500;
+  color: #ffffff;
+  margin: 0;
+  line-height: 1; /* tighter line-height helps vertical centering */
+}
+
+.splash-logo {
+  max-width: 240px;
+  width: auto; /* let height constrain size for consistent vertical alignment */
+  max-height: 72px; /* limit height so text and logo align nicely */
+  height: auto;
+  display: block;
+  margin: 0; /* remove bottom margin so the logo and text are centered on the same baseline */
+}
+
+/* Circular outline wrapper around brand + button */
+.splash-circle {
+  box-sizing: border-box;
+  /* larger circle so it comfortably contains existing logo, text and button */
+  width: min(740px, 92vw);
+  aspect-ratio: 1 / 1; /* keep it a square so border-radius:50% becomes a circle */
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 36px;
+  gap: 48px; /* larger gap between brand and button (moved button lower) */
+  border-radius: 50%;
+  background: transparent;
+  position: relative; /* needed for the rotating gradient pseudo-element */
+  overflow: visible;
+}
+
+/* Make sure contents don't overflow the circle on narrow screens */
+@media (max-width: 420px) {
+  .splash-circle {
+    padding: 18px;
+    width: 88vw;
+    gap: 20px; /* reduce gap on small screens so layout stays compact */
+  }
+  .splash-logo {
+    max-height: 56px;
+  }
+  .splash-text {
+    font-size: 18px;
+  }
+  .splash-enter {
+    min-width: 180px;
+    padding: 12px 20px;
+    font-size: 16px;
+  }
+}
+
+/* inner mask to create a ring: inset controls thickness */
+.splash-circle::before {
+  content: "";
+  position: absolute;
+  inset: 3px; /* controls the ring thickness */
+  border-radius: 50%;
+  background: #0e0e0e; /* match site background */
+  z-index: 1;
+}
+
+/* rotating gradient ring (only this pseudo-element spins) */
+.splash-circle::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 0deg, #e3a535 0%, #ffdc73 100%);
+  z-index: 0;
+  pointer-events: none;
+  /* neon glow around the ring */
+  box-shadow: 0 0 10px #e3a535, 0 0 20px #e3a535, 0 0 30px #ffdc73;
+  /* rotate and subtle pulse animations */
+  animation: rotateGradient 4s linear infinite,
+    pulseGlow 2.5s ease-in-out infinite;
+}
+
+/* ensure inner content sits above the masked background */
+.splash-circle > * {
+  position: relative;
+  z-index: 2;
+}
+
+@keyframes rotateGradient {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes pulseGlow {
+  0%,
+  100% {
+    box-shadow: 0 0 10px #e3a535, 0 0 20px #e3a535, 0 0 30px #ffdc73;
+    opacity: 1;
+  }
+  50% {
+    box-shadow: 0 0 20px #ffdc73, 0 0 40px #e3a535, 0 0 60px #ffdc73;
+    opacity: 0.95;
+  }
+}
+
+.splash-enter:focus {
+  outline: 2px solid #000;
+  outline-offset: 2px;
+}
+
+/* New neon pulse button styles (keeps id wiring but uses classes .btn and .neon-pulse) */
+.btn {
+  position: relative;
+  padding: 0.6rem 2rem; /* reduced vertical padding for a smaller height */
+  font-size: 1.25rem;
+  font-weight: 600;
+  color: #fff;
+  background: none;
+  border: none;
+  cursor: pointer;
+  overflow: hidden;
+  transition: all 0.4s ease;
+  min-width: 180px; /* keep previous min width */
+  z-index: 1;
+  border-radius: 6px; /* match previous button rounding */
+  line-height: 2;
+}
+
+.neon-pulse {
+  background: #0e0e0e;
+  border: 2px solid #e3a535; /* use requested gold color */
+  box-shadow: 0 0 10px rgba(227, 165, 53, 0.25);
+  overflow: visible;
+}
+
+.neon-pulse::before,
+.neon-pulse::after {
+  content: "";
+  position: absolute;
+  inset: -6px;
+  border: 2px solid #e3a535;
+  border-radius: inherit;
+  animation: pulseOut 2s ease-out infinite;
+  opacity: 0;
+}
+
+.neon-pulse::after {
+  animation-delay: 1s;
+}
+
+@keyframes pulseOut {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.5);
+    opacity: 0;
+  }
 }

@@ -16,9 +16,36 @@
   </head>
 
   <body>
+    <!-- Splash overlay shown before the main chat -->
+    <div
+      id="splash"
+      class="splash-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-label="Welcome"
+    >
+      <div class="splash-content">
+        <div class="splash-circle">
+          <div class="splash-brand">
+            <!-- Replace the src below with the actual L'Oréal logo file (e.g. img/loreal-logo.png) -->
+            <img
+              src="img/loreal-logo.png"
+              alt="L'Oréal logo"
+              class="splash-logo"
+            />
+            <p class="splash-text">Skincare Advisor</p>
+          </div>
+          <button id="enterBtn" class="btn neon-pulse" aria-label="Enter site">
+            <span>Start Chatting</span>
+          </button>
+        </div>
+      </div>
+    </div>
     <div class="page-wrapper">
       <!------- Header / Branding ------->
       <header class="site-header">
+        <!-- Logo left of title -->
+        <img src="img/loreal-logo.png" alt="L'Oréal logo" class="site-logo" />
         <h1 class="site-title">Smart Product Advisor</h1>
       </header>
 
@@ -49,11 +76,11 @@
 
       <!------- Footer Links ------->
       <footer class="site-footer">
-        <p>&copy; 2025 Company Name. All rights reserved.</p>
+        <p>&copy; 2025 L'Oréal. All rights reserved.</p>
         <nav>
           <!-- These URLs are placeholders -->
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms of Use</a>
+          <a href="#">Privacy Policy</a> | 
+          <a href="#">Terms of Use</a> |
           <a href="#">Contact</a>
         </nav>
       </footer>
